@@ -13,6 +13,6 @@ playerRouter.post("/", createPlayer);
 
 playerRouter.put("/:id", updatePlayer);
 
-playerRouter.get("/:walletId", getPlayer);
+playerRouter.get("/:walletID", getPlayer);
 
 module.exports = playerRouter;
