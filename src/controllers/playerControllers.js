@@ -62,7 +62,7 @@ const updatePlayer = async (req, res) => {
 
 
 const getPlayer=async(req,res) =>{
-  const {walletID}=req.params.walletID;
+  const walletID=req.params.walletID;
   try{
   const existingPlayer = await playerModel.findOne({ walletID: walletID });
   if(!existingPlayer)
