@@ -3,11 +3,11 @@ const player = require("../models/player");
 const playerModel = require("../models/player");
 
 const createPlayer = async (req, res) => {
-  const { walletID, score } = req.body;
+  const { walletID } = req.body;
 
   const newPlayer = new player({
     walletID: walletID,
-    score: score,
+    score: [],
   });
 
   try {
@@ -28,6 +28,10 @@ const createPlayer = async (req, res) => {
     res.status(500).json("something went wrong");
   }
 };
+
+// called from Xnft after successfull betting by user
+
+
 
 const updatePlayer = async (req, res) => {
   const id = req.params.id;
@@ -54,8 +58,33 @@ const updatePlayer = async (req, res) => {
     res.status(500).json("something went wrong");
   }
 };
+//call from game after each time people play there on game end
 
-const getPlayer = async (req, res) => {
+
+const getPlayer=async(req,res) =>{
+  const {walletID}=req.params.walletID;
+  try{
+  const existingPlayer = await playerModel.findOne({ walletID: walletID });
+  if(!existingPlayer)
+    {res.status(200).json("User Not Found")}
+  
+  else
+  {
+    res.status(200).json(existingPlayer)
+  }}
+  catch(err)
+  {
+    console.log(err)
+    res.status(500).json("Something Went Wrong")
+  }
+ 
+}
+//return a players status. called before loading game
+
+
+
+
+const getAllPlayers = async (req, res) => {
   try {
     const player = await playerModel.find({});
     res.status(200).json(player);
@@ -64,9 +93,18 @@ const getPlayer = async (req, res) => {
     res.status(500).json("something went wrong");
   }
 };
+//return all players used for leaderBoard and endgame by admin form xnft
 
 module.exports = {
   createPlayer,
   updatePlayer,
-  getPlayer,
+  getAllPlayers,
+  getPlayer
 };
+
+
+// Logic in frontend is like this:-
+// When User bet in xnft than a player will be created here with max 3 scores stored in array
+// Each time user visit game and ask for play to earn than total remaining chances will be checked
+// from frontend and based on that user may be allowed to Play game Or Not
+// updatePlayer will be called if player is playing via betting and play to earn route

@@ -1,15 +1,18 @@
 const express = require("express");
 const {
-  getPlayer,
   createPlayer,
   updatePlayer,
+  getAllPlayers,
+  getPlayer
 } = require("../controllers/playerControllers");
 const playerRouter = express.Router();
 
-playerRouter.get("/", getPlayer);
+playerRouter.get("/", getAllPlayers);
 
 playerRouter.post("/", createPlayer);
 
 playerRouter.put("/:id", updatePlayer);
+
+playerRouter.get("/:walletId", getPlayer);
 
 module.exports = playerRouter;

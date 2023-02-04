@@ -11,13 +11,11 @@ app.use(express.json());
 
 app.use(cors());
 
-// app.use("/users",userRouter);
 
-// app.use("/notes",noteRouter);
 app.use("/player", playerRouter);
 
 app.get("/", (req, res) => {
-  res.send("PLayer API");
+  res.send("Player API");
 });
 
 const PORT = process.env.PORT || 5000;
